@@ -16,8 +16,18 @@ router.get("/passes", function(req, res){
         }));
     })
     .catch(function(error){
-        console.log(error);
+        res.status(400).json(error);
     });
+});
+
+router.get("/currentISSPosition", function(req, res){
+    axios.get("http://api.open-notify.org/iss-now.json?callback=?")
+    .then(function(data){
+        res.json(JSON.parse(data.data.substring(2, data.data.length-1)).iss_position);
+    })
+    .catch(function(error){
+        res.status(400).json(error);
+    })
 });
 
 module.exports = router;
